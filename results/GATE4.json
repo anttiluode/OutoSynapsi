@@ -1,0 +1,52 @@
+{
+  "gate": 4,
+  "classification": "SCALAR_CONSEQUENCES_IDENTIFY_EFFECTIVE_GEOMETRY",
+  "passed": true,
+  "question": "Can the body infer which geometry governs consequence without being told the hidden conductance exponent?",
+  "hidden_worlds": {
+    "conductance_law": "c_e = g_e^p",
+    "hidden_powers": [0.75, 1.0, 1.5, 2.0, 2.5, 3.0],
+    "actual_directed_mfpt_geometry": "sum |S_e(source)| / g_e^p"
+  },
+  "observer": {
+    "per_calibration_observation": "known local topology + current couplings + chosen (source,target) + one scalar arrival time",
+    "calibration_probes": 16,
+    "measurement_log_noise_sigma": 0.02,
+    "not_observed": "generator matrix, hidden exponent p, full MFPT map, analytic tree identity"
+  },
+  "model_family": {
+    "form": "T_hat = scale * sum_on_path |S_e(source)|^alpha / g_e^beta",
+    "alpha_grid": [0.0, 1.5, 0.05],
+    "beta_grid": [0.5, 3.5, 0.05],
+    "important_boundary": "The learner selects a geometry inside this supplied two-parameter family; it does not invent the functional form from scratch."
+  },
+  "worlds_evaluated": 120,
+  "learned_summary": {
+    "alpha_absolute_error": {"mean": 0.014583333333333334, "min": 0.0, "max": 0.10000000000000009},
+    "beta_absolute_error": {"mean": 0.002083333333334425, "min": 2.220446049250313e-16, "max": 0.05000000000000093},
+    "heldout_log_r2": {"mean": 0.999828695495091, "min": 0.9980262579381286, "max": 0.9999999999232871},
+    "heldout_mape": {"mean": 0.005508094014953985, "min": 1.06033360394499e-05, "max": 0.02893633204435859},
+    "objective_over_oracle": {"mean": 1.0001360372114303, "min": 0.9999999999999823, "max": 1.002638396475633}
+  },
+  "per_hidden_power": {
+    "0.75": {"alpha_mean": 1.005, "beta_mean": 0.7525, "heldout_log_r2_mean": 0.9996581755917454, "objective_over_oracle_mean": 1.0002042350617637, "objective_over_oracle_max": 1.0009621437013285},
+    "1.0": {"alpha_mean": 1.0025, "beta_mean": 0.9975, "heldout_log_r2_mean": 0.9997139376565034, "objective_over_oracle_mean": 1.000276804962267, "objective_over_oracle_max": 1.0012363671554831},
+    "1.5": {"alpha_mean": 1.01, "beta_mean": 1.5, "heldout_log_r2_mean": 0.9997159029619356, "objective_over_oracle_mean": 1.000270245183425, "objective_over_oracle_max": 1.002638396475633},
+    "2.0": {"alpha_mean": 1.0, "beta_mean": 2.0, "heldout_log_r2_mean": 0.999943391678238, "objective_over_oracle_mean": 1.000052758848011, "objective_over_oracle_max": 1.0005394089557778},
+    "2.5": {"alpha_mean": 1.0, "beta_mean": 2.5, "heldout_log_r2_mean": 0.99997419297952, "objective_over_oracle_mean": 1.0, "objective_over_oracle_max": 1.0},
+    "3.0": {"alpha_mean": 1.0, "beta_mean": 2.9975, "heldout_log_r2_mean": 0.9999665721026035, "objective_over_oracle_mean": 1.0000121792131322, "objective_over_oracle_max": 1.0002435842625323}
+  },
+  "fixed_geometry_attackers": {
+    "uniform": {"mean_objective_over_oracle": 2.4897433493704586, "worst_objective_over_oracle": 3.2047743977219416},
+    "fixed_connes_alpha0_beta1": {"mean_objective_over_oracle": 2.089808346772189, "worst_objective_over_oracle": 4.719571601317777},
+    "fixed_resistance_alpha0_beta2": {"mean_objective_over_oracle": 1.3112145305957474, "worst_objective_over_oracle": 1.5122714831949102},
+    "fixed_gate3_alpha1_beta2": {"mean_objective_over_oracle": 1.0711175048442811, "worst_objective_over_oracle": 1.1880084209468722}
+  },
+  "probe_budget_sweep": {
+    "4": {"worlds": 48, "mean_abs_alpha_error": 0.09375, "mean_abs_beta_error": 0.06250000000000064, "mean_objective_over_oracle": 1.0052804888575348, "worst_objective_over_oracle": 1.0705676266365647},
+    "8": {"worlds": 48, "mean_abs_alpha_error": 0.030208333333333337, "mean_abs_beta_error": 0.00833333333333428, "mean_objective_over_oracle": 1.000393472817705, "worst_objective_over_oracle": 1.002638396475633},
+    "16": {"worlds": 48, "mean_abs_alpha_error": 0.018750000000000003, "mean_abs_beta_error": 0.005208333333334425, "mean_objective_over_oracle": 1.0002118011815442, "worst_objective_over_oracle": 1.0022233753931449},
+    "32": {"worlds": 48, "mean_abs_alpha_error": 0.010416666666666666, "mean_abs_beta_error": 1.1472304587793285e-15, "mean_objective_over_oracle": 1.0000690602547972, "worst_objective_over_oracle": 1.0005157680046448}
+  },
+  "scope": "System identification of an effective propagation geometry from scalar consequences. Demonstrates selection within a supplied metric family, not open-ended mathematical discovery or a biological mechanism."
+}
