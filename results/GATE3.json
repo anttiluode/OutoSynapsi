@@ -1,0 +1,147 @@
+{
+  "gate": 3,
+  "classification": "LOCAL_DIFFUSION_REVEALS_DIRECTIONAL_VOLUME_GEOMETRY",
+  "passed": true,
+  "dynamics": "continuous-time local diffusion / random walk with adjacent transition rate c_e=g_e^2",
+  "measurement": "source-to-target mean first-passage time from the local generator; no Connes or resistance distance enters the propagation solve",
+  "tree": {
+    "nodes": 31,
+    "edges": 30,
+    "coupling_budget": 30.0
+  },
+  "task": {
+    "training_pairs": 8,
+    "heldout_pairs": 8,
+    "all_leaf_ordered_pairs": 240,
+    "dynamic_coefficient_match_max_error": 0.0,
+    "body_tax": 0.05
+  },
+  "predictor_benchmark": {
+    "random_geometries": 96,
+    "fit_geometries": 64,
+    "heldout_geometries": 32,
+    "ordered_leaf_pairs_per_geometry": 240,
+    "total_propagation_problems": 23040,
+    "lognormal_sigma": 0.7,
+    "predictors": {
+      "connes_distance": {
+        "spearman_all": 0.8215638092501635,
+        "log_pearson_all": 0.8458684810968293,
+        "heldout_log_r2": 0.7378066232660996,
+        "heldout_mape": 0.41714521877029426,
+        "fit_intercept": 2.000719895255122,
+        "fit_exponent": 1.617759012007554
+      },
+      "resistance_distance": {
+        "spearman_all": 0.8492543587889011,
+        "log_pearson_all": 0.867867073754989,
+        "heldout_log_r2": 0.7824315274564463,
+        "heldout_mape": 0.42201382939519055,
+        "fit_intercept": 2.6926681807782855,
+        "fit_exponent": 0.9816971684091369
+      },
+      "hop_count": {
+        "spearman_all": 0.4552264723705235,
+        "log_pearson_all": 0.5523493729642985,
+        "heldout_log_r2": 0.33056033796311346,
+        "heldout_mape": 0.776317765660283,
+        "fit_intercept": 3.121116527017687,
+        "fit_exponent": 1.3848311857399491
+      },
+      "bottleneck_inverse_conductance": {
+        "spearman_all": 0.7659842218344277,
+        "log_pearson_all": 0.7767434591086319,
+        "heldout_log_r2": 0.632181870473837,
+        "heldout_mape": 0.6267744944669736,
+        "fit_intercept": 3.8448763522459353,
+        "fit_exponent": 0.7838930052448988
+      },
+      "directional_volume_resistance": {
+        "spearman_all": 1.0,
+        "log_pearson_all": 1.0,
+        "heldout_log_r2": 1.0,
+        "heldout_mape": 3.662297672586077e-14,
+        "fit_intercept": -1.6682874486181263e-14,
+        "fit_exponent": 1.0000000000000036
+      }
+    }
+  },
+  "allocations_on_actual_dynamics": {
+    "frozen_uniform": {
+      "heldout_mfpt": 124.00000000000007,
+      "all_leaf_mfpt": 101.2666666666668,
+      "dynamic_objective": 129.06333333333342,
+      "min_coupling": 1.0,
+      "max_coupling": 1.0
+    },
+    "gate1_dirac_sqrt": {
+      "heldout_mfpt": 51.64913044135911,
+      "all_leaf_mfpt": 224.98530215365548,
+      "dynamic_objective": 62.89839554904189,
+      "min_coupling": 0.4601740816091966,
+      "max_coupling": 2.10878256183093
+    },
+    "gate2_resistance_cube": {
+      "heldout_mfpt": 62.12711682403621,
+      "all_leaf_mfpt": 140.39609689468762,
+      "dynamic_objective": 69.14692166877059,
+      "min_coupling": 0.6189576603936536,
+      "max_coupling": 1.7076572534163459
+    },
+    "traffic_proportional": {
+      "heldout_mfpt": 50.45572765377926,
+      "all_leaf_mfpt": 1724.0714177600632,
+      "dynamic_objective": 136.65929854178245,
+      "min_coupling": 0.15789473684210517,
+      "max_coupling": 3.315789473684209
+    },
+    "dynamic_mfpt_oracle": {
+      "heldout_mfpt": 35.91017365969755,
+      "all_leaf_mfpt": 238.67091362374492,
+      "dynamic_objective": 47.843719340884796,
+      "min_coupling": 0.39309966953096787,
+      "max_coupling": 2.479478955009771
+    }
+  },
+  "online_dynamic_plasticity": {
+    "seeds": 20,
+    "updates_per_seed": 20000,
+    "learning_rate": 0.0002,
+    "rule": "g_e += eta * [2(score_task + body_tax*score_body)/g_e^3 - mean_edges]; score is source-side volume on each currently traversed edge",
+    "summary": {
+      "heldout_mfpt": {
+        "mean": 36.00524609637209,
+        "min": 35.668197499483725,
+        "max": 36.324965773265404
+      },
+      "all_leaf_mfpt": {
+        "mean": 238.20384145280846,
+        "min": 232.1712932177892,
+        "max": 245.57124815908142
+      },
+      "dynamic_objective": {
+        "mean": 47.91543816901251,
+        "min": 47.86629907381097,
+        "max": 47.9761838042795
+      },
+      "min_coupling": {
+        "mean": 0.3611690939438188,
+        "min": 0.32783375230452133,
+        "max": 0.3809512692382168
+      },
+      "max_coupling": {
+        "mean": 2.4762783636285404,
+        "min": 2.4692455556377775,
+        "max": 2.4870565195457592
+      },
+      "cosine_to_dynamic_oracle": {
+        "mean": 0.9999029557620609,
+        "min": 0.9997938198235211,
+        "max": 0.9999720193744042
+      }
+    },
+    "objective_over_oracle": 1.0014990228417804
+  },
+  "exact_tree_identity": "For this symmetric continuous-time generator on a tree, MFPT(s->t)=sum_{e in path} |S_e(s)|/g_e^2, where |S_e(s)| is the number of vertices on the source side when edge e is cut.",
+  "scope": "This gate establishes an operator-specific propagation geometry for one local diffusion process. It does not make Connes distance a universal dynamical distance, nor claim that biological synapses use this generator."
+}
