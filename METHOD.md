@@ -51,3 +51,54 @@ The traffic bit and coupling are local to the edge; the mean subtraction is the 
 **Shuffled traffic:** identical online update and identical amount of path traffic, but each traffic vector is randomly permuted across edge addresses before plasticity.
 
 **Analytic oracle:** exact constrained minimum of the stated objective.
+
+## Gate 3 — actual local dynamics
+
+The tree couplings are compiled into a continuous-time symmetric local diffusion generator. For adjacent vertices `u,v` on edge `e`:
+
+```text
+Q_uv = Q_vu = g_e²
+Q_uu = -sum_v Q_uv
+```
+
+No spectral distance enters this generator.
+
+For target `t`, MFPT is measured by solving the standard backward equation on all non-target states:
+
+```text
+Q_not_t * h = -1.
+```
+
+This provides an independently generated propagation quantity.
+
+### Predictor benchmark
+
+96 lognormal random coupling geometries are normalized to the same total coupling budget. The first 64 geometries fit a one-dimensional log-linear calibration; the final 32 are held out. Every geometry contributes all 240 ordered leaf pairs.
+
+Candidate scalar predictors are Connes distance, resistance distance, hop count, worst inverse conductance on the route, and directional source-side-volume resistance.
+
+On a tree, the local generator admits the exact identity
+
+```text
+H(s,t) = sum_(e in path s->t) |S_e(s)| / g_e².
+```
+
+This is also verified numerically in the unit suite against direct MFPT linear solves.
+
+### Dynamics-derived plasticity
+
+Let `K_task,e` be expected source-side-volume score from task pairs, and `K_body,e` the same score averaged over all ordered leaf pairs. The optimization target is
+
+```text
+J_dyn(g)=sum_e [K_task,e + beta K_body,e] / g_e²
+subject to sum_e g_e=B.
+```
+
+The exact optimum is
+
+```text
+g*_e = B C_e^(1/3) / sum_j C_j^(1/3)
+C_e = K_task,e + beta K_body,e.
+```
+
+Online learning samples one task pair and one background-body pair per update. Traversed edge `e` receives score equal to the number of vertices on the source side of that edge. The negative gradient is `2 score_e/g_e³`; mean subtraction enforces the fixed global coupling budget.
