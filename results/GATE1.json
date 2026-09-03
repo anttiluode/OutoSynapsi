@@ -1,0 +1,26 @@
+{
+  "gate": 1,
+  "classification": "TRAFFIC_DRIVEN_RULE_DEFORMS_SPECTRAL_METRIC_TO_NEAR_ORACLE_UNDER_BUDGET",
+  "passed": true,
+  "tree": {"nodes": 31, "edges": 30, "total_coupling_budget": 30.0},
+  "task": {"training_pairs": 8, "heldout_pairs": 8, "edge_flow_match_max_error": 0.0, "standing_body_tax": 0.05},
+  "training": {"seeds": 40, "updates_per_seed": 10000, "learning_rate": 0.002},
+  "objective": "J(g)=E_task[d_D(s,t)] + lambda * sum_e 1/g_e, subject to sum_e g_e=B",
+  "analytic_oracle": "g_e* = B sqrt(F_e+lambda) / sum_j sqrt(F_j+lambda)",
+  "frozen_uniform": {"heldout_task_distance": 8.0, "all_leaf_distance": 6.533333333333333, "objective": 9.500000000000005},
+  "traffic_proportional": {"heldout_task_distance": 4.468975468975471, "all_leaf_distance": 19.46700336700338, "objective": 9.500000000000004},
+  "analytic_metric_oracle": {"heldout_task_distance": 4.981573110356176, "all_leaf_distance": 8.323659299648567, "objective": 7.083484543016414, "min_coupling": 0.4601740816091966, "max_coupling": 2.10878256183093},
+  "stochastic_metric_plasticity": {
+    "heldout_task_distance": {"mean": 4.98247776829524, "min": 4.981962042964561, "max": 4.983403433270285},
+    "all_leaf_distance": {"mean": 8.323343798970114, "min": 8.32236877629985, "max": 8.324165088060447},
+    "objective": {"mean": 7.0840823236788015, "min": 7.083616518429501, "max": 7.084881947534767},
+    "cosine_to_oracle": {"mean": 0.9999621599002457, "min": 0.9999058081364279, "max": 0.9999918512131164}
+  },
+  "shuffled_traffic_attacker": {
+    "heldout_task_distance": {"mean": 8.016107305321265, "min": 7.946967291801148, "max": 8.097802277609315},
+    "all_leaf_distance": {"mean": 6.537045060372003, "min": 6.513859391313389, "max": 6.558206289421349},
+    "objective": {"mean": 9.516604364891915, "min": 9.447752637742257, "max": 9.598464289304802}
+  },
+  "comparisons": {"learned_objective_over_oracle": 1.0000843907625911, "learned_heldout_distance_over_frozen": 0.622809721036905, "shuffled_heldout_distance_over_frozen": 1.0020134131651581},
+  "scope": "Literal metric deformation inside the chosen finite spectral triple; not a biological, novelty, or necessity claim."
+}
