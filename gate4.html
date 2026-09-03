@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OutoSynapsi Gate 4 — can the tree discover its own geometry?</title>
+<style>
+:root{--bg:#061014;--p:#09171b;--line:#28464d;--text:#d9ece8;--muted:#89a49e;--lime:#c7ff57;--cyan:#66fbd1;--pink:#ff547f}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#15343c,#061014 48%);color:var(--text);font-family:ui-monospace,monospace}
+main{max-width:1120px;margin:auto;padding:44px 20px 70px}.tag{color:var(--cyan);font-size:11px;letter-spacing:.18em}h1{font:750 clamp(40px,6vw,72px)/.98 system-ui;letter-spacing:-.045em;margin:10px 0 18px}h1 em{color:var(--lime);font-style:normal}.lead{max-width:840px;font:18px/1.6 system-ui;color:#aec3be}.grid{display:grid;grid-template-columns:1.45fr 1fr;gap:16px;margin-top:26px}.card{background:rgba(8,21,25,.93);border:1px solid var(--line);padding:16px}canvas{width:100%;height:auto;background:#051014;border:1px solid #173039}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}.m{border:1px solid #1c363d;padding:12px}.m span{display:block;font-size:9px;color:var(--muted);letter-spacing:.08em}.m strong{display:block;font-size:26px;color:var(--lime);margin-top:5px}.m.hidden strong{color:var(--pink)}button{font:700 12px ui-monospace,monospace;padding:11px 14px;margin:9px 7px 4px 0;background:#10262b;color:var(--text);border:1px solid #31545c}button.primary{background:var(--lime);color:#071106;border-color:var(--lime)}.eq{margin:16px 0;padding:12px 14px;border-left:3px solid var(--cyan);background:#08171a;color:var(--cyan)}.log{height:190px;overflow:auto;border:1px solid #1b353b;background:#061115;padding:10px;color:#9ab0ab;font-size:11px;line-height:1.6}.note{font:14px/1.6 system-ui;color:#91aaa5}.bar{height:12px;border:1px solid #24444b;background:#0c2025;margin:8px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--lime));width:0}a{color:var(--cyan)}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<div class="tag">OUTOSYNAPSI / GATE 4 / SCALAR CONSEQUENCE</div>
+<h1>Can a tree discover <em>its own effective geometry?</em></h1>
+<p class="lead">A hidden local law decides how coupling strength becomes transport. The observer is not told the exponent. It gets one scalar arrival time per experiment and must infer which geometry makes those consequences predictable.</p>
+<div class="grid">
+<section class="card">
+<canvas id="cv" width="690" height="520"></canvas>
+<button class="primary" id="probe">TAKE ONE SCALAR PROBE</button>
+<button id="eight">TAKE 8</button>
+<button id="newworld">NEW HIDDEN WORLD</button>
+<button id="reveal">REVEAL LAW</button>
+<p class="note">Each probe randomizes the coupling geometry, chooses a directed leaf pair, and returns only one noisy arrival time. The browser uses Gate 3's verified tree identity for speed; the committed Python assay generates the scalar from the actual local generator.</p>
+<div class="log" id="log"></div>
+</section>
+<aside class="card">
+<div class="metrics">
+<div class="m"><span>SCALAR PROBES</span><strong id="count">0</strong></div>
+<div class="m"><span>INFERRED SOURCE-VOLUME α</span><strong id="alpha">—</strong></div>
+<div class="m"><span>INFERRED COUPLING POWER β</span><strong id="beta">—</strong></div>
+<div class="m hidden"><span>HIDDEN POWER p</span><strong id="truth">?</strong></div>
+<div class="m"><span>STRUCTURE / ORACLE</span><strong id="ratio">—</strong></div>
+<div class="m"><span>FIT LOG-MSE</span><strong id="mse">—</strong></div>
+</div>
+<p class="note">Near-oracle structural quality:</p><div class="bar"><i id="quality"></i></div>
+<div class="eq">T̂ = C Σ |S<sub>e</sub>(source)|<sup>α</sup> / g<sub>e</sub><sup>β</sup></div>
+<p class="note">The law's grammar is supplied. What is learned is <b>which geometry inside that family governs consequence</b>. In the committed 120-world assay, 16 noisy scalar measurements gave mean β error 0.00208 and a learned structural objective 1.000136× oracle.</p>
+<p class="note"><b>Budget audit:</b> even 8 scalar probes averaged 1.00039× oracle.</p>
+</aside>
+</div>
+<p class="note"><a href="results/GATE4.json">receipt</a> · <a href="experiments/gate4_infer_geometry.py">executable assay</a> · <a href="gate3.html">Gate 3 dynamics</a> · <a href="https://github.com/anttiluode/OutoSynapsi">source</a></p>
+</main>
+<script>
+(()=>{
+const N=31,E=30,B=30,bodyTax=.05,powers=[.75,1,1.5,2,2.5,3],alphas=[...Array(31)].map((_,i)=>i*.05),betas=[...Array(61)].map((_,i)=>.5+i*.05);
+const edges=[];for(let i=0;i<15;i++)edges.push([i,2*i+1],[i,2*i+2]);
+const adj=Array.from({length:N},()=>[]);edges.forEach((e,i)=>{adj[e[0]].push([e[1],i]);adj[e[1]].push([e[0],i])});
+const leaves=[...Array(16)].map((_,i)=>15+i),body=[];for(const s of leaves)for(const t of leaves)if(s!==t)body.push([s,t]);
+const A=[15,16,17,18],C=[27,28,29,30],train=[];for(let i=0;i<4;i++)train.push([A[i],C[i]],[A[i],C[(i+1)%4]]);
+const test=[];for(const s of A)for(const t of C)if(!train.some(q=>q[0]===s&&q[1]===t))test.push([s,t]);
+const pos=[...Array(N)].map((_,i)=>{let d=Math.floor(Math.log2(i+1)),first=(1<<d)-1,k=i-first,n=1<<d;return[54+582*(k+.5)/n,52+102*d]});
+function path(s,t){const par=new Map([[s,[-1,-1]]]),q=[s];for(let h=0;h<q.length;h++){let u=q[h];if(u===t)break;for(const [v,e] of adj[u])if(!par.has(v)){par.set(v,[u,e]);q.push(v)}}let out=[],u=t;while(u!==s){const [v,e]=par.get(u);out.push(e);u=v}return out.reverse()}
+function sideSize(s,block){const seen=new Set([s]),q=[s];for(let h=0;h<q.length;h++){const u=q[h];for(const [v,e] of adj[u])if(e!==block&&!seen.has(v)){seen.add(v);q.push(v)}}return seen.size}
+const side=Array.from({length:N},(_,s)=>Array.from({length:E},(_,e)=>sideSize(s,e)));
+function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function randomW(){let w=Array.from({length:E},()=>Math.exp(.7*randn())),z=w.reduce((a,b)=>a+b,0);return w.map(x=>B*x/z)}
+function metric(w,s,t,a,b){let z=0;for(const e of path(s,t))z+=Math.pow(side[s][e],a)/Math.pow(w[e],b);return z}
+function coeff(pairs,a){const z=new Array(E).fill(0);for(const [s,t] of pairs)for(const e of path(s,t))z[e]+=Math.pow(side[s][e],a)/pairs.length;return z}
+function alloc(a,b){const k=coeff(train,a),kb=coeff(body,a);let z=k.map((x,e)=>Math.pow(x+bodyTax*kb[e],1/(b+1))),s=z.reduce((x,y)=>x+y,0);return z.map(x=>B*x/s)}
+function trueObj(w,p){const kt=coeff(test,1),kb=coeff(body,1);let z=0;for(let e=0;e<E;e++)z+=(kt[e]+bodyTax*kb[e])/Math.pow(w[e],p);return z}
+function oracle(p){const kt=coeff(test,1),kb=coeff(body,1);let z=kt.map((x,e)=>Math.pow(x+bodyTax*kb[e],1/(p+1))),s=z.reduce((a,b)=>a+b,0);return z.map(x=>B*x/s)}
+let hidden=2,samples=[],lastW=new Array(E).fill(1),lastPath=[];
+function fit(){if(samples.length<2)return null;let ly=samples.map(r=>Math.log(r.y)),best=null;for(const a of alphas)for(const b of betas){let lp=samples.map(r=>Math.log(metric(r.w,r.s,r.t,a,b))),off=ly.reduce((z,y,i)=>z+y-lp[i],0)/ly.length,m=ly.reduce((z,y,i)=>z+Math.pow(y-(lp[i]+off),2),0)/ly.length;if(!best||m<best.m)best={a,b,off,m}}return best}
+function draw(){const cv=document.getElementById('cv'),x=cv.getContext('2d');x.clearRect(0,0,cv.width,cv.height);for(let e=0;e<E;e++){const [u,v]=edges[e];x.strokeStyle=lastPath.includes(e)?'#c7ff57':'#31535b';x.lineWidth=1+2.2*lastW[e];x.beginPath();x.moveTo(...pos[u]);x.lineTo(...pos[v]);x.stroke()}for(let i=0;i<N;i++){x.fillStyle=i>=15?'#66fbd1':'#9fb5b1';x.beginPath();x.arc(pos[i][0],pos[i][1],4,0,7);x.fill()}}
+function update(){count.textContent=samples.length;const f=fit();if(!f){alpha.textContent='—';beta.textContent='—';ratio.textContent='—';mse.textContent='—';quality.style.width='0';return}alpha.textContent=f.a.toFixed(2);beta.textContent=f.b.toFixed(2);mse.textContent=f.m.toExponential(2);const r=trueObj(alloc(f.a,f.b),hidden)/trueObj(oracle(hidden),hidden);ratio.textContent=r.toFixed(5)+'×';quality.style.width=Math.max(0,Math.min(100,100-(r-1)*500))+'%'}
+function one(){const w=randomW(),pair=body[Math.floor(Math.random()*body.length)],y=metric(w,pair[0],pair[1],1,hidden)*Math.exp(.02*randn());samples.push({w,s:pair[0],t:pair[1],y});lastW=w;lastPath=path(...pair);log.innerHTML='<div>pulse '+samples.length+': '+pair[0]+'→'+pair[1]+'  arrival='+y.toFixed(3)+'</div>'+log.innerHTML;draw();update()}
+function newWorld(){hidden=powers[Math.floor(Math.random()*powers.length)];samples=[];lastW=new Array(E).fill(1);lastPath=[];truth.textContent='?';log.innerHTML='<div>new body. hidden transport law sealed.</div>';draw();update()}
+probe.onclick=one;eight.onclick=()=>{for(let i=0;i<8;i++)one()};newworld.onclick=newWorld;reveal.onclick=()=>truth.textContent=hidden.toFixed(2);newWorld();
+})();
+</script>
+</body>
+</html>
