@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OutoSynapsi Gate 3 — which geometry carries the pulse?</title>
+<style>
+:root{--bg:#061014;--panel:#09171b;--line:#28464d;--text:#d9ece8;--muted:#87a39d;--lime:#c7ff57;--cyan:#66fbd1;--pink:#ff547f}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#133039,#061014 48%);color:var(--text);font-family:ui-monospace,monospace}
+main{max-width:1180px;margin:auto;padding:42px 20px 70px}h1{font:750 clamp(38px,6vw,72px)/.98 system-ui;margin:10px 0 16px;letter-spacing:-.04em}h1 em{color:var(--lime);font-style:normal}.lead{font:18px/1.6 system-ui;color:#adc2bd;max-width:850px}.tag{color:var(--cyan);letter-spacing:.16em;font-size:11px}.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-top:28px}.card{background:rgba(8,21,25,.91);border:1px solid var(--line);padding:16px}canvas{width:100%;height:auto;background:#051014;border:1px solid #173039}select,button{font:700 12px ui-monospace,monospace;background:#10262b;color:var(--text);border:1px solid #31545c;padding:11px 13px;margin:8px 7px 4px 0}button.primary{background:var(--lime);color:#071106;border-color:var(--lime)}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}.m{border:1px solid #1c363d;padding:11px}.m span{display:block;color:var(--muted);font-size:9px;letter-spacing:.08em}.m strong{display:block;color:var(--lime);font-size:24px;margin-top:5px}.m.actual strong{color:var(--cyan)}.bar{height:12px;background:#0c2025;border:1px solid #24444b;margin:8px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--lime))}.note{font:14px/1.6 system-ui;color:#91aaa5}.eq{border-left:3px solid var(--cyan);padding:12px 16px;background:#08171a;color:var(--cyan);font-size:17px;margin:17px 0}.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin:8px 0}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}.receipt{margin-top:18px;border-top:1px solid #24434a;padding-top:14px}.winner{color:var(--lime)}a{color:var(--cyan)}@media(max-width:820px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<div class="tag">OUTOSYNAPSI / GATE 3 / ACTUAL LOCAL DYNAMICS</div>
+<h1>The metric is not automatically <em>the travel time.</em></h1>
+<p class="lead">The same coupling <b>g</b> defines Connes length <b>1/g</b>, but here the body actually transports a pulse by local diffusion with edge rate <b>g²</b>. Pick a learned geometry and launch one packet. The target is absorbing; no distance formula drives the animation.</p>
+
+<div class="grid">
+<section class="card">
+  <canvas id="cv" width="760" height="540"></canvas>
+  <div>
+    <select id="mode">
+      <option value="frozen">Frozen geometry</option>
+      <option value="gate1">Gate 1 — Connes sqrt allocation</option>
+      <option value="gate2">Gate 2 — resistance cube allocation</option>
+      <option value="dynamic" selected>Gate 3 — MFPT dynamic oracle</option>
+      <option value="traffic">Traffic proportional</option>
+    </select>
+    <button class="primary" id="launch">LAUNCH LOCAL PULSE</button>
+    <button id="reset">RESET</button>
+  </div>
+  <div class="legend">
+    <span><i class="dot" style="background:#ff547f"></i>source leaf 15</span>
+    <span><i class="dot" style="background:#c7ff57"></i>absorbing target leaf 29</span>
+    <span><i class="dot" style="background:#66fbd1"></i>probability mass</span>
+  </div>
+  <p class="note">Edge thickness is coupling g. Only neighboring nodes exchange probability mass. The animation integrates the continuous-time local generator; the target absorbs arriving mass.</p>
+</section>
+
+<aside class="card">
+  <div class="metrics">
+    <div class="m"><span>CONNES DISTANCE Σ1/g</span><strong id="d1">—</strong></div>
+    <div class="m"><span>RESISTANCE Σ1/g²</span><strong id="d2">—</strong></div>
+    <div class="m"><span>EXACT ONE-WAY MFPT</span><strong id="exact">—</strong></div>
+    <div class="m actual"><span>SIMULATED ∫ SURVIVAL dt</span><strong id="sim">0.00</strong></div>
+  </div>
+  <p class="note">Target absorbed:</p>
+  <div class="bar"><i id="absorbed"></i></div>
+  <div class="eq">MFPT(s→t) = Σ |S<sub>e</sub>(s)| / g<sub>e</sub>²</div>
+  <p class="note">The missing factor is <b>|Sₑ(s)|</b>: how much of the body lies behind the traversed edge on the source side. Connes distance correlates with this diffusion time, but it is not equal to it.</p>
+  <div class="receipt">
+    <p class="note"><b class="winner">Committed 23,040-problem audit:</b><br>
+    Connes held-out log R² = <b>0.738</b><br>
+    resistance = <b>0.782</b><br>
+    directional-volume resistance = <b>1.000</b>.</p>
+  </div>
+</aside>
+</div>
+
+<p class="note">This page is explanatory. The claim lives in <a href="results/GATE3.json">GATE3.json</a> and <a href="experiments/gate3_actual_diffusion.py">the executable assay</a>. <a href="index.html">Gate 0–2 metric plasticity demo</a> · <a href="https://github.com/anttiluode/OutoSynapsi">source</a>.</p>
+</main>
+<script>
+(() => {
+const N=31,E=30,B=30,L=.05,beta=.05,source=15,target=29;
+const edges=[];for(let i=0;i<15;i++){edges.push([i,2*i+1],[i,2*i+2])}
+const adj=Array.from({length:N},()=>[]);edges.forEach((e,i)=>{adj[e[0]].push([e[1],i]);adj[e[1]].push([e[0],i])});
+const leaves=[...Array(16)].map((_,i)=>15+i);
+const train=[[15,27],[15,28],[16,28],[16,29],[17,29],[17,30],[18,30],[18,27]];
+const body=[];for(const s of leaves)for(const t of leaves)if(s!==t)body.push([s,t]);
+const pos=[...Array(N)].map((_,i)=>{const d=Math.floor(Math.log2(i+1)),first=(1<<d)-1,k=i-first,n=1<<d;return[58+644*(k+.5)/n,52+105*d]});
+let weights=new Float64Array(E).fill(1),p=new Float64Array(N),running=false,token=0,area=0,clock=0;
+
+function path(s,t){const par=new Map([[s,[-1,-1]]]),q=[s];for(let h=0;h<q.length;h++){const u=q[h];if(u===t)break;for(const [v,e] of adj[u])if(!par.has(v)){par.set(v,[u,e]);q.push(v)}}const out=[];let u=t;while(u!==s){const [v,e]=par.get(u);out.push(e);u=v}return out.reverse()}
+function sideSize(s,blocked){const seen=new Set([s]),q=[s];for(let h=0;h<q.length;h++){const u=q[h];for(const [v,e] of adj[u])if(e!==blocked&&!seen.has(v)){seen.add(v);q.push(v)}}return seen.size}
+function score(pair){const [s,t]=pair,z=new Float64Array(E);for(const e of path(s,t))z[e]=sideSize(s,e);return z}
+const flow=new Float64Array(E);for(const pair of train)for(const e of path(...pair))flow[e]+=1/train.length;
+const Ktask=new Float64Array(E),Kbody=new Float64Array(E);
+for(const pair of train){const z=score(pair);for(let e=0;e<E;e++)Ktask[e]+=z[e]/train.length}
+for(const pair of body){const z=score(pair);for(let e=0;e<E;e++)Kbody[e]+=z[e]/body.length}
+function alloc(score,exp){const z=new Float64Array(E);let s=0;for(let e=0;e<E;e++){z[e]=Math.pow(score[e],exp);s+=z[e]}for(let e=0;e<E;e++)z[e]=B*z[e]/s;return z}
+function choose(mode){if(mode==='frozen')return new Float64Array(E).fill(1);const f=new Float64Array(E);for(let e=0;e<E;e++)f[e]=flow[e]+L;if(mode==='gate1')return alloc(f,.5);if(mode==='gate2')return alloc(f,1/3);if(mode==='traffic')return alloc(f,1);const c=new Float64Array(E);for(let e=0;e<E;e++)c[e]=Ktask[e]+beta*Kbody[e];return alloc(c,1/3)}
+function metrics(){const pe=path(source,target);let a=0,b=0,m=0;for(const e of pe){a+=1/weights[e];b+=1/(weights[e]*weights[e]);m+=sideSize(source,e)/(weights[e]*weights[e])}d1.textContent=a.toFixed(2);d2.textContent=b.toFixed(2);exact.textContent=m.toFixed(2)}
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+function draw(){ctx.clearRect(0,0,cv.width,cv.height);for(let e=0;e<E;e++){const [u,v]=edges[e];ctx.strokeStyle='#31535b';ctx.lineWidth=1+2.3*weights[e];ctx.beginPath();ctx.moveTo(...pos[u]);ctx.lineTo(...pos[v]);ctx.stroke()}for(let i=0;i<N;i++){const mass=p[i];let r=4+22*Math.sqrt(Math.max(0,mass));ctx.fillStyle=i===source?'#ff547f':i===target?'#c7ff57':mass>1e-7?'#66fbd1':'#8ca39f';ctx.globalAlpha=i===source||i===target?1:Math.min(1,.22+3*Math.sqrt(mass));ctx.beginPath();ctx.arc(pos[i][0],pos[i][1],r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}document.getElementById('absorbed').style.width=(100*p[target]).toFixed(1)+'%';document.getElementById('sim').textContent=area.toFixed(2)}
+function reset(){token++;running=false;weights=choose(mode.value);p=new Float64Array(N);p[source]=1;area=0;clock=0;metrics();draw()}
+function step(dt){const dp=new Float64Array(N);for(let e=0;e<E;e++){const [u,v]=edges[e],c=weights[e]*weights[e];if(u===target){const f=c*p[v];dp[v]-=f;dp[target]+=f}else if(v===target){const f=c*p[u];dp[u]-=f;dp[target]+=f}else{const f=c*(p[u]-p[v]);dp[u]-=f;dp[v]+=f}}area+=(1-p[target])*dt;for(let i=0;i<N;i++)p[i]+=dt*dp[i];clock+=dt}
+function launch(){if(running)return;reset();running=true;const mine=token;let maxRate=0;for(let u=0;u<N;u++){if(u===target)continue;let s=0;for(const [,e] of adj[u])s+=weights[e]*weights[e];maxRate=Math.max(maxRate,s)}const dt=.12/maxRate;function frame(){if(!running||mine!==token)return;for(let k=0;k<18;k++)step(dt);draw();if(p[target]>.9995||clock>12*Number(exact.textContent)){running=false;return}requestAnimationFrame(frame)}requestAnimationFrame(frame)}
+mode.onchange=reset;document.getElementById('reset').onclick=reset;document.getElementById('launch').onclick=launch;reset();
+})();
+</script>
+</body>
+</html>
