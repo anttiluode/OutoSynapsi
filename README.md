@@ -357,18 +357,108 @@ The important correction is now sharper than “learning changes geometry”:
 
 Receipt: [`results/GATE3.json`](results/GATE3.json) · [live Gate 3 diffusion demo](gate3.html)
 
-## Next gate — can the body choose its own geometry?
+## Gate 4 — the body identifies its own effective geometry
 
-Gate 3 still hands us the dynamical law `c_e=g_e²`. The next serious question is whether a local adaptive system can infer from consequences whether its useful geometry is closer to:
+Gate 3 handed the learner the dynamical law `c_e=g_e²`. Gate 4 hides it.
+
+Each world secretly chooses
 
 ```text
-1/g       Dirac / Connes
-1/g²      resistance
-|S|/g²    directional diffusion
-or something else entirely
+c_e = g_e^p
+
+p ∈ {0.75, 1, 1.5, 2, 2.5, 3}.
 ```
 
-without being told the exponent or the correct path functional.
+The observer never sees `p`, the generator matrix, a full MFPT map, or the analytic tree identity. One calibration experiment supplies only:
+
+```text
+current couplings
+chosen source + target
+one scalar arrival time
+```
+
+with 2% multiplicative log-noise.
+
+The learner is given a deliberately small candidate family
+
+```text
+T_hat(s,t)
+  = scale * sum_(e in path)
+      |S_e(s)|^alpha / g_e^beta
+```
+
+and must infer `alpha` and `beta` from scalar consequences.
+
+This is **not open-ended mathematical discovery**. The functional family is supplied. The question is whether limited experience can identify which geometry inside that family is actually governing consequence.
+
+### Result
+
+Across six hidden operator powers × 20 independent worlds = **120 worlds**, using only **16 scalar calibration measurements per world**:
+
+```text
+true source-volume exponent alpha     1
+mean |alpha_hat - 1|                  0.0146
+
+hidden conductance exponent beta      p
+mean |beta_hat - p|                   0.00208
+
+held-out log R²                       0.999829
+held-out MAPE                         0.00551
+```
+
+The inferred geometry is then used to derive a fixed-budget structural allocation. On the **actual hidden local dynamics**:
+
+```text
+mean learned objective / oracle       1.000136
+worst learned / oracle                1.002638
+```
+
+Fixed-geometry attackers do much worse when the world changes:
+
+| assumed geometry | mean objective / oracle | worst |
+|---|---:|---:|
+| uniform body | 2.490 | 3.205 |
+| fixed Connes-like `alpha=0,beta=1` | 2.090 | **4.720** |
+| fixed resistance `alpha=0,beta=2` | 1.311 | 1.512 |
+| fixed Gate-3 `alpha=1,beta=2` | **1.071** | 1.188 |
+| **identified from scalar consequences** | **1.000136** | **1.002638** |
+
+The fixed Gate-3 law is excellent only near its native `p=2`. The identified law follows the hidden operator.
+
+### How many scalar consequences?
+
+A separate budget sweep:
+
+| calibration pulses | mean objective / oracle | worst |
+|---:|---:|---:|
+| 4 | 1.00528 | 1.07057 |
+| **8** | **1.00039** | **1.00264** |
+| 16 | 1.00021 | 1.00222 |
+| 32 | 1.00007 | 1.00052 |
+
+So in this tiny controlled family, **eight scalar consequences are already enough to choose a nearly oracle structural geometry**.
+
+Classification:
+
+> `SCALAR_CONSEQUENCES_IDENTIFY_EFFECTIVE_GEOMETRY`
+
+That changes the Geometric Synapse sentence again:
+
+> **The body need not be told in advance which distance its couplings implement. Limited scalar consequences can identify an effective geometry, and that inferred geometry can determine how structure should adapt.**
+
+Receipt: [`results/GATE4.json`](results/GATE4.json) · [experiment](experiments/gate4_infer_geometry.py)
+
+## Next gate — remove the supplied geometry family
+
+Gate 4 still gives the body the answer's grammar:
+
+```text
+sum |S|^alpha / g^beta.
+```
+
+The next hard gate is representation discovery. Give it a broader library of local observables / operator probes and ask whether it can discover that source-side volume and a coupling power are needed, rather than merely fitting their exponents.
+
+That is where “the body discovers its own geometry” becomes less metaphorical.
 
 ## Lineage
 
@@ -392,6 +482,7 @@ python experiments/gate0_exact_metric.py
 python experiments/gate1_metric_plasticity.py
 python experiments/gate2_dirac_vs_laplacian.py
 python experiments/gate3_actual_diffusion.py
+python experiments/gate4_infer_geometry.py
 ```
 
 ## Mathematical references
