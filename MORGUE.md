@@ -54,3 +54,22 @@ No. Gate 2 used ordinary edge flow plus a standing edge tax. Actual MFPT weights
 ### “Traffic proportional is a good practical shortcut”
 
 Not under a whole-body objective. It makes favored task MFPT low (`50.456`) but explodes mean all-leaf MFPT to `1724.071`, worse than frozen by about 17×.
+
+
+### “The body must be told which metric its synapses implement”
+
+Not inside Gate 4's supplied family. Across hidden conductance exponents from `0.75` to `3`, 16 noisy scalar arrival-time consequences recover mean exponent error `0.00208` and produce a structural objective `1.000136×` oracle.
+
+But this does **not** mean the body discovered mathematics from scratch. It was handed the family `sum |S|^alpha/g^beta`.
+
+### “One fixed geometric-synapse rule should generalize across physical substrates”
+
+No. The fixed Gate-3 `alpha=1,beta=2` rule is exact at hidden `p=2`, but averages `1.071×` oracle across the six worlds and reaches `1.188×` in the worst. The fixed Connes-like rule reaches `4.720×` oracle in the worst world.
+
+### “Geometry identification needs a full map of the system”
+
+Not in this controlled family. Eight scalar source→target consequences already give mean structural objective `1.00039×` oracle. The observer still knows topology, couplings, and the chosen endpoints, so this is not a blind black-box result.
+
+### “Gate 4 is open-ended geometry discovery”
+
+No. It is low-dimensional system identification. Gate 5 must broaden the representation library and make source-side volume / coupling power themselves discoverable.
