@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 
 from outosynapsi import SpectralTree, complete_binary_tree, stochastic_metric_plasticity
+from outosynapsi.dynamics import directional_volume_resistance, mfpt_matrix, source_side_table
 
 
 class SpectralTreeTests(unittest.TestCase):
@@ -25,6 +26,25 @@ class SpectralTreeTests(unittest.TestCase):
         witness = tree.distance_witness(0)
         self.assertLessEqual(tree.lipschitz_seminorm(witness), 1.0 + 1e-12)
         self.assertAlmostEqual(witness[4] - witness[0], tree.connes_distance(0, 4), places=12)
+
+    def test_local_diffusion_mfpt_matches_directional_tree_formula(self):
+        tree = SpectralTree(
+            5,
+            [(0, 1), (1, 2), (1, 3), (3, 4)],
+            [0.8, 1.7, 0.55, 2.2],
+        )
+        mfpt = mfpt_matrix(tree)
+        side = source_side_table(tree)
+        for source in range(tree.n_nodes):
+            for target in range(tree.n_nodes):
+                if source == target:
+                    continue
+                predicted = directional_volume_resistance(
+                    tree, source, target, side_table=side
+                )
+                self.assertAlmostEqual(
+                    float(mfpt[source, target]), predicted, places=10
+                )
 
     def test_projected_plasticity_preserves_budget(self):
         n, edges = complete_binary_tree(3)
