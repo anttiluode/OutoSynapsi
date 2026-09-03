@@ -40,3 +40,43 @@ The same edge coupling can enter two different operator-derived costs. Gate 0 Co
 The online D² rule reaches `1.000084×` the analytic cube-root oracle with coupling cosine `0.999986`.
 
 The result kills the idea that one generic “geometry-aware plasticity” rule follows from traffic alone. The operator power matters.
+
+
+## Gate 3 — `LOCAL_DIFFUSION_REVEALS_DIRECTIONAL_VOLUME_GEOMETRY`
+
+The learned coupling is compiled into a symmetric continuous-time local generator with adjacent rate `c_e=g_e²`. Propagation is measured by source-to-target mean first-passage time.
+
+### Predictor audit
+
+96 random fixed-budget geometries × 240 ordered leaf pairs = 23,040 propagation problems.
+
+| predictor | held-out log R² | MAPE | Spearman |
+|---|---:|---:|---:|
+| hop count | 0.3306 | 0.7763 | 0.4552 |
+| bottleneck | 0.6322 | 0.6268 | 0.7660 |
+| Connes distance `sum 1/g` | 0.7378 | 0.4171 | 0.8216 |
+| resistance `sum 1/g²` | 0.7824 | 0.4220 | 0.8493 |
+| **directional volume resistance** | **1.0000** | **3.66e-14** | **1.0000** |
+
+Exact tree identity:
+
+```text
+MFPT(s->t) = sum_(e in path) |S_e(s)| / g_e²
+```
+
+where `|S_e(s)|` is source-side component size after deleting edge `e`.
+
+### Dynamic plasticity
+
+Objective: held-out MFPT + 0.05 × all-leaf MFPT.
+
+| allocation | held-out MFPT ↓ | all-leaf MFPT | objective ↓ |
+|---|---:|---:|---:|
+| frozen | 124.000 | 101.267 | 129.063 |
+| Gate-1 sqrt | 51.649 | 224.985 | 62.898 |
+| Gate-2 cube | 62.127 | 140.396 | 69.147 |
+| traffic proportional | 50.456 | 1724.071 | 136.659 |
+| **dynamic oracle** | **35.910** | 238.671 | **47.844** |
+| **online dynamic plasticity** | **36.005** | **238.204** | **47.915** |
+
+Online objective/oracle = `1.001499`; mean coupling cosine to oracle = `0.999903`.
