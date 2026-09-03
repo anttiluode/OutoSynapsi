@@ -271,19 +271,104 @@ If biology or an artificial body uses a Dirac-like quantity for one function and
 
 Receipt: [`results/GATE2.json`](results/GATE2.json)
 
-## Next gate — independent propagation
+## Gate 3 — actual local diffusion chooses a different geometry
 
-Gate 2 is still analytic at the level of path resistance. The next non-tautological test should run an actual local dynamical system — wave, diffusion, recurrent transport, or pulse propagation — and ask which candidate geometry best predicts measured arrival time / transfer reliability:
+Gate 2 still optimized analytic path costs. Gate 3 finally compiles the same couplings into an **independent local dynamical system**.
+
+Each tree edge carries symmetric continuous-time transition rate
 
 ```text
-Connes distance 1/g
-resistance distance 1/g²
-hop count
-raw coupling
-Laplacian spectral quantities
+c_e = g_e^2
 ```
 
-That is where “geometric synapse” either becomes a useful computational diagnostic or collapses back to a reparameterized weighted graph.
+and the body evolves under the corresponding local generator. Starting from one source node, the measured propagation quantity is the **mean first-passage time (MFPT)** to a target. The propagation solve never sees Connes distance or any graph-distance formula.
+
+Across 96 random fixed-budget coupling geometries × 240 ordered leaf pairs = **23,040 actual propagation problems**:
+
+| proposed predictor | held-out log R² | Spearman |
+|---|---:|---:|
+| hop count | 0.331 | 0.455 |
+| bottleneck inverse conductance | 0.632 | 0.766 |
+| **Connes distance** `sum 1/g` | **0.738** | **0.822** |
+| resistance distance `sum 1/g²` | 0.782 | 0.849 |
+| **directional volume resistance** | **1.000** | **1.000** |
+
+The exact winner is
+
+```text
+MFPT(s -> t)
+  = sum_(e on path s->t) |S_e(s)| / g_e^2
+```
+
+where `|S_e(s)|` is the number of vertices on the **source side** after cutting edge `e`.
+
+So the first actual-dynamics gate kills a seductive simplification:
+
+> **Connes distance is a real metric of the Gate-0 spectral triple, but it is not the propagation time of this D²-like diffusion.**
+
+Even plain resistance distance is incomplete for one-way transport because it ignores how much body sits behind each traversed edge. Direction and volume matter.
+
+Classification:
+
+> `LOCAL_DIFFUSION_REVEALS_DIRECTIONAL_VOLUME_GEOMETRY`
+
+### Plasticity derived from the actual dynamics
+
+This gives a new body-level objective:
+
+```text
+J_dyn(g)
+  = mean held-out MFPT
+    + beta * mean all-leaf MFPT
+```
+
+with `beta=0.05`.
+
+If `K_e` is the expected directional source-side traffic coefficient, then
+
+```text
+J_dyn = sum_e K_e / g_e^2
+```
+
+and the exact fixed-budget optimum is again cube-root, but now of **directional volume traffic** rather than ordinary edge-use frequency:
+
+```text
+g*_e ∝ K_e^(1/3).
+```
+
+The online local rule samples task traffic plus background body traffic and updates only traversed edges, with one global fixed-budget homeostat.
+
+Across 20 independent streams × 20,000 updates:
+
+| allocation | held-out MFPT ↓ | all-leaf MFPT | dynamic objective ↓ |
+|---|---:|---:|---:|
+| frozen | 124.000 | **101.267** | 129.063 |
+| Gate-1 Connes sqrt | 51.649 | 224.985 | 62.898 |
+| Gate-2 resistance cube | 62.127 | 140.396 | 69.147 |
+| traffic proportional | 50.456 | 1724.071 | 136.659 |
+| **dynamic MFPT oracle** | **35.910** | 238.671 | **47.844** |
+| **online dynamic plasticity** | **36.005** | **238.204** | **47.915** |
+
+The online rule reaches **1.00150×** the analytic dynamic oracle with coupling-vector cosine **0.999903**.
+
+The important correction is now sharper than “learning changes geometry”:
+
+> **The body can support several legitimate geometries at once. The learning law depends on the actual local dynamics and on which notion of distance the task cares about.**
+
+Receipt: [`results/GATE3.json`](results/GATE3.json)
+
+## Next gate — can the body choose its own geometry?
+
+Gate 3 still hands us the dynamical law `c_e=g_e²`. The next serious question is whether a local adaptive system can infer from consequences whether its useful geometry is closer to:
+
+```text
+1/g       Dirac / Connes
+1/g²      resistance
+|S|/g²    directional diffusion
+or something else entirely
+```
+
+without being told the exponent or the correct path functional.
 
 ## Lineage
 
@@ -305,6 +390,8 @@ python -m pip install -e .
 python -m unittest discover -s tests -v
 python experiments/gate0_exact_metric.py
 python experiments/gate1_metric_plasticity.py
+python experiments/gate2_dirac_vs_laplacian.py
+python experiments/gate3_actual_diffusion.py
 ```
 
 ## Mathematical references
