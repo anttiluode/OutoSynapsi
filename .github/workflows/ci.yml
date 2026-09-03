@@ -22,3 +22,5 @@ jobs:
         run: python experiments/gate0_exact_metric.py
       - name: Gate 1 - traffic-driven metric plasticity
         run: python experiments/gate1_metric_plasticity.py
+      - name: Gate 2 - Dirac versus Laplacian boundary
+        run: python experiments/gate2_dirac_vs_laplacian.py
