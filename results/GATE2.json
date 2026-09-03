@@ -1,0 +1,14 @@
+{
+  "gate": 2,
+  "classification": "DIRAC_METRIC_AND_D_SQUARED_TRANSPORT_REQUIRE_DIFFERENT_BUDGET_OPTIMA",
+  "passed": true,
+  "frozen": {"connes_task_distance_p1": 8.0, "laplacian_resistance_task_p2": 8.0, "all_leaf_resistance_p2": 6.533333333333333, "laplacian_objective_p2": 9.500000000000005},
+  "gate1_dirac_sqrt_allocation": {"connes_task_distance_p1": 4.981573110356176, "laplacian_resistance_task_p2": 3.3322019639586595, "all_leaf_resistance_p2": 14.515180784107041, "laplacian_objective_p2": 7.083484543016416},
+  "laplacian_cube_root_oracle": {"connes_task_distance_p1": 5.573517803280086, "laplacian_resistance_task_p2": 4.008201085421701, "all_leaf_resistance_p2": 9.057812702883064, "laplacian_objective_p2": 6.325697682409768},
+  "traffic_proportional": {"connes_task_distance_p1": 4.468975468975471, "laplacian_resistance_task_p2": 3.2552082357277197, "all_leaf_resistance_p2": 111.23041404910103, "laplacian_objective_p2": 31.863155363155407},
+  "online_laplacian_plasticity": {"laplacian_resistance_task_p2_mean": 4.012054655982884, "all_leaf_resistance_p2_mean": 9.047936068058444, "laplacian_objective_p2_mean": 6.326228475310837, "cosine_to_laplacian_oracle_mean": 0.9999855468390624},
+  "shuffled_traffic_attacker": {"laplacian_resistance_task_p2_mean": 8.017374001592769, "laplacian_objective_p2_mean": 9.517874045758962},
+  "learned_objective_over_oracle": 1.000083910570457,
+  "interpretation": "If g is an inverse Dirac length, Connes path cost scales as 1/g. If a Laplacian-like transport uses g^2 conductance, tree resistance scales as 1/g^2. The fixed-budget optima are sqrt(flow+tax) versus cube_root(flow+tax).",
+  "scope": "Operator-power boundary; not a claim that biological transport is literally D^2."
+}
