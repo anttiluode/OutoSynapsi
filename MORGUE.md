@@ -27,3 +27,7 @@ Not in this repo. Both use spectral-operator language, but OutoSynapsi currently
 ### “Gate 1 proves the metric is computationally useful”
 
 Not yet. Gate 1 optimizes an objective written directly in Connes distance. Gate 2 must compile the same couplings into independent local dynamics and test whether spectral distance predicts propagation or task performance better than boring graph metrics.
+
+### “There is one universal geometric plasticity law”
+
+No. Gate 2 gives an exact counterexample inside this repo. If the relevant cost is Connes path length `1/g`, the fixed-budget optimum is square-root in traffic. If the relevant transport cost is a Laplacian-like resistance `1/g²`, the optimum is cube-root in traffic. “Learning changes geometry” is incomplete until the physical/operator role of `g` is specified.
