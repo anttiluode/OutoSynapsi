@@ -31,3 +31,26 @@ Not yet. Gate 1 optimizes an objective written directly in Connes distance. Gate
 ### “There is one universal geometric plasticity law”
 
 No. Gate 2 gives an exact counterexample inside this repo. If the relevant cost is Connes path length `1/g`, the fixed-budget optimum is square-root in traffic. If the relevant transport cost is a Laplacian-like resistance `1/g²`, the optimum is cube-root in traffic. “Learning changes geometry” is incomplete until the physical/operator role of `g` is specified.
+
+
+### “Connes distance is the signal travel time”
+
+No. Gate 3 compiles the same couplings into an actual local continuous-time diffusion with edge rate `g²`. Across 23,040 propagation problems, Connes distance reaches held-out log-R² `0.738`, while the exact one-way MFPT quantity is directional source-side-volume resistance:
+
+```text
+sum |S_e(source)| / g_e².
+```
+
+The Connes metric remains exact for the Gate-0 spectral triple. It is simply not the dynamical travel-time metric of this different operator.
+
+### “Resistance distance fully predicts directed diffusion”
+
+Not one-way hitting time. Plain `sum 1/g²` reaches held-out log-R² `0.782`. The missing factor is how much graph volume sits behind each edge relative to the source. Round-trip/commute quantities are closer to ordinary resistance; directed first passage is not.
+
+### “Gate-2 cube-root flow allocation is automatically optimal for D² dynamics”
+
+No. Gate 2 used ordinary edge flow plus a standing edge tax. Actual MFPT weights a traversed edge by source-side component volume. The resulting cube-root law acts on a different coefficient vector and reduces the measured dynamic objective from `69.147` to `47.844`.
+
+### “Traffic proportional is a good practical shortcut”
+
+Not under a whole-body objective. It makes favored task MFPT low (`50.456`) but explodes mean all-leaf MFPT to `1724.071`, worse than frozen by about 17×.
