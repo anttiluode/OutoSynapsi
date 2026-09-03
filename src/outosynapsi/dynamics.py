@@ -28,6 +28,27 @@ def continuous_time_generator(
     return q
 
 
+def mfpt_to_target(
+    tree: SpectralTree,
+    source: int,
+    target: int,
+    *,
+    conductance_power: float = 2.0,
+) -> float:
+    """One scalar source->target arrival-time consequence."""
+    if int(source) == int(target):
+        return 0.0
+    q = continuous_time_generator(
+        tree, conductance_power=conductance_power
+    )
+    keep = np.arange(tree.n_nodes) != int(target)
+    reduced = q[np.ix_(keep, keep)]
+    h = np.linalg.solve(reduced, -np.ones(tree.n_nodes - 1))
+    kept_nodes = np.arange(tree.n_nodes)[keep]
+    index = int(np.flatnonzero(kept_nodes == int(source))[0])
+    return float(h[index])
+
+
 def mfpt_matrix(
     tree: SpectralTree,
     *,
