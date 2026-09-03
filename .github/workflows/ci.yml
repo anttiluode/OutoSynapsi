@@ -24,3 +24,5 @@ jobs:
         run: python experiments/gate1_metric_plasticity.py
       - name: Gate 2 - Dirac versus Laplacian boundary
         run: python experiments/gate2_dirac_vs_laplacian.py
+      - name: Gate 3 - actual local diffusion
+        run: python experiments/gate3_actual_diffusion.py
