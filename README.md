@@ -446,7 +446,7 @@ That changes the Geometric Synapse sentence again:
 
 > **The body need not be told in advance which distance its couplings implement. Limited scalar consequences can identify an effective geometry, and that inferred geometry can determine how structure should adapt.**
 
-Receipt: [`results/GATE4.json`](results/GATE4.json) · [experiment](experiments/gate4_infer_geometry.py)
+Receipt: [`results/GATE4.json`](results/GATE4.json) · [experiment](experiments/gate4_infer_geometry.py) · [live self-identifying geometry demo](gate4.html)
 
 ## Next gate — remove the supplied geometry family
 
