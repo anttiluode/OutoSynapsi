@@ -1,0 +1,12 @@
+{
+  "gate": 0,
+  "classification": "EDGE_COUPLING_IS_EXACT_INVERSE_SPECTRAL_LENGTH_IN_THIS_TRIPLE",
+  "passed": true,
+  "construction": "A=C(V), H=direct_sum_edges C^2, pi(a)|e=diag(a_u,a_v), D_e=[[0,g_e],[g_e,0]]",
+  "identity": "||[D,pi(a)]|| = max_e g_e |a_u-a_v|",
+  "distance": "d(i,j) = shortest_path sum_e 1/g_e; unique path on a tree",
+  "max_two_point_absolute_error": 0.0,
+  "max_commutator_norm_absolute_error": 1.7763568394002505e-15,
+  "max_distance_witness_absolute_error": 0.0,
+  "scope": "Exact for the chosen finite edge-block spectral triple; not every graph Dirac operator gives this distance."
+}
