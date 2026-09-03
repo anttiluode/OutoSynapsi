@@ -214,30 +214,76 @@ And the deformation can be optimized under a resource budget.
 
 That last item is the next real gate.
 
-## Gate 2 — make geometry predict dynamics
+## Gate 2 — D versus D² changes the learning law
 
-Use the same learned couplings to compile an actual local dynamical operator and **do not put Connes distance into the loss**.
+Gate 1 exposed a danger in the phrase “the synapse changes geometry”: **which operator is actually doing the physics?**
 
-Then ask:
-
-```text
-Does traffic-induced contraction of d_D
-predict faster / more reliable signal transfer
-on held-out routes?
-```
-
-Attack it with:
+If `g_e` is the inverse Dirac length in the Gate-0 triple, the path metric scales as
 
 ```text
-ordinary weighted shortest path
-resistance distance
-Laplacian eigenmodes
-raw coupling statistics
-random rewiring
-same spectrum / changed geometry controls
+Dirac / Connes cost ~ 1/g_e.
 ```
 
-If the spectral metric predicts an independently measured propagation property, the “geometric synapse” becomes computational rather than just a mathematically exact reinterpretation of coupling.
+But a Laplacian-like transport built from squared couplings has edge conductance `g_e²`. On a tree its effective resistance scales as
+
+```text
+D² / Laplacian resistance cost ~ 1/g_e².
+```
+
+Under the same fixed coupling budget, those two objectives have different exact optima:
+
+```text
+Dirac metric objective:      g*_e ∝ (F_e + lambda)^(1/2)
+D² resistance objective:     g*_e ∝ (F_e + lambda)^(1/3)
+```
+
+That difference is not cosmetic. Gate 2 runs a second online plasticity law, derived from the `1/g²` objective:
+
+```text
+g_e <- g_e + eta * [
+    2(q_e + lambda)/g_e^3
+    - mean_j(2(q_j + lambda)/g_j^3)
+]
+```
+
+Across 40 seeds:
+
+| geometry / rule | task resistance ↓ | all-leaf resistance | D² objective ↓ |
+|---|---:|---:|---:|
+| frozen | 8.000 | **6.533** | 9.500 |
+| Gate-1 square-root allocation | **3.332** | 14.515 | 7.083 |
+| **D² cube-root oracle** | 4.008 | **9.058** | **6.3257** |
+| **online D² plasticity** | **4.012** | **9.048** | **6.3262** |
+| traffic proportional | 3.255 | 111.230 | 31.863 |
+| shuffled traffic | 8.017 | 6.537 | 9.518 |
+
+The online D² rule reaches **1.000084×** the analytic cube-root oracle and coupling cosine **0.999986**.
+
+Classification:
+
+> `DIRAC_METRIC_AND_D_SQUARED_TRANSPORT_REQUIRE_DIFFERENT_BUDGET_OPTIMA`
+
+This is the most important boundary so far:
+
+> **“Learning changes geometry” is incomplete until we say which operator defines the geometry and which operator actually carries the signal.**
+
+If biology or an artificial body uses a Dirac-like quantity for one function and a Laplacian / diffusion generator for another, the same traffic can imply different optimal structural changes.
+
+Receipt: [`results/GATE2.json`](results/GATE2.json)
+
+## Next gate — independent propagation
+
+Gate 2 is still analytic at the level of path resistance. The next non-tautological test should run an actual local dynamical system — wave, diffusion, recurrent transport, or pulse propagation — and ask which candidate geometry best predicts measured arrival time / transfer reliability:
+
+```text
+Connes distance 1/g
+resistance distance 1/g²
+hop count
+raw coupling
+Laplacian spectral quantities
+```
+
+That is where “geometric synapse” either becomes a useful computational diagnostic or collapses back to a reparameterized weighted graph.
 
 ## Lineage
 
