@@ -355,7 +355,7 @@ The important correction is now sharper than “learning changes geometry”:
 
 > **The body can support several legitimate geometries at once. The learning law depends on the actual local dynamics and on which notion of distance the task cares about.**
 
-Receipt: [`results/GATE3.json`](results/GATE3.json)
+Receipt: [`results/GATE3.json`](results/GATE3.json) · [live Gate 3 diffusion demo](gate3.html)
 
 ## Next gate — can the body choose its own geometry?
 
