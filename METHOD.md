@@ -102,3 +102,35 @@ C_e = K_task,e + beta K_body,e.
 ```
 
 Online learning samples one task pair and one background-body pair per update. Traversed edge `e` receives score equal to the number of vertices on the source side of that edge. The negative gradient is `2 score_e/g_e³`; mean subtraction enforces the fixed global coupling budget.
+
+
+## Gate 4 — geometry identification from scalar consequences
+
+A hidden world chooses conductance exponent `p` and runs the same local continuous-time generator as Gate 3 except edge rate is `g_e^p`.
+
+For each calibration sample, couplings are drawn lognormally and renormalized to the fixed coupling budget. A directed leaf pair is chosen, the local generator is solved for its one scalar MFPT, and 2% multiplicative log-noise is added.
+
+The observer is not told `p`. It searches
+
+```text
+alpha = 0 ... 1.5 in steps of 0.05
+beta  = 0.5 ... 3.5 in steps of 0.05
+
+T_hat = C sum_path |S_e(source)|^alpha / g_e^beta.
+```
+
+For each `(alpha,beta)`, the multiplicative scale `C` is fit analytically as the mean log residual. The winning geometry minimizes calibration log-MSE.
+
+Generalization is tested on 32 new coupling geometries/pairs with no measurement noise.
+
+The inferred model then creates its own fixed-budget allocation. If its path objective is `sum K_e/g_e^beta`, the derived optimum is
+
+```text
+g_e ∝ K_e^(1/(beta+1)).
+```
+
+That structure is scored against the **actual hidden local generator**, not against the fitted formula.
+
+Attackers are uniform geometry, fixed Connes-like `alpha=0,beta=1`, fixed resistance `alpha=0,beta=2`, and fixed Gate-3 directional geometry `alpha=1,beta=2`.
+
+A separate 4/8/16/32 scalar-probe sweep tests sample efficiency.
