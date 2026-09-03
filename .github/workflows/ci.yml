@@ -26,3 +26,5 @@ jobs:
         run: python experiments/gate2_dirac_vs_laplacian.py
       - name: Gate 3 - actual local diffusion
         run: python experiments/gate3_actual_diffusion.py
+      - name: Gate 4 - infer effective geometry
+        run: python experiments/gate4_infer_geometry.py
