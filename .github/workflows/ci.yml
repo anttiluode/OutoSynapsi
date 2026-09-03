@@ -1,0 +1,24 @@
+name: gates
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: python -m pip install -e .
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Gate 0 - exact finite spectral metric
+        run: python experiments/gate0_exact_metric.py
+      - name: Gate 1 - traffic-driven metric plasticity
+        run: python experiments/gate1_metric_plasticity.py
