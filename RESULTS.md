@@ -80,3 +80,36 @@ Objective: held-out MFPT + 0.05 × all-leaf MFPT.
 | **online dynamic plasticity** | **36.005** | **238.204** | **47.915** |
 
 Online objective/oracle = `1.001499`; mean coupling cosine to oracle = `0.999903`.
+
+
+## Gate 4 — `SCALAR_CONSEQUENCES_IDENTIFY_EFFECTIVE_GEOMETRY`
+
+Six hidden local generators use `c_e=g_e^p` with `p ∈ {0.75,1,1.5,2,2.5,3}`. The learner gets 16 noisy scalar source→target arrival measurements and fits only the family
+
+```text
+scale * sum |S_e(source)|^alpha / g_e^beta.
+```
+
+Across 120 worlds:
+
+| quantity | result |
+|---|---:|
+| mean absolute alpha error | 0.01458 |
+| mean absolute beta error | 0.00208 |
+| mean held-out log R² | 0.999829 |
+| mean held-out MAPE | 0.00551 |
+| mean learned objective / oracle | **1.000136** |
+| worst learned / oracle | **1.002638** |
+
+Fixed Gate-3 `alpha=1,beta=2` averages `1.0711×` oracle and reaches `1.1880×` in the worst hidden world. Fixed Connes-like `alpha=0,beta=1` reaches `4.7196×` oracle at the worst hidden power.
+
+Probe-budget sweep:
+
+| pulses | mean / oracle | worst / oracle |
+|---:|---:|---:|
+| 4 | 1.005280 | 1.070568 |
+| 8 | **1.000393** | **1.002638** |
+| 16 | 1.000212 | 1.002223 |
+| 32 | 1.000069 | 1.000516 |
+
+Boundary: the two-parameter metric family is supplied; only its effective geometry is identified.
